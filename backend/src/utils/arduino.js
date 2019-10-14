@@ -1,18 +1,33 @@
 const SerialPort = require('serialport');
 const Readline = require('@serialport/parser-readline');
-const port = new SerialPort(process.argv[2]);
+const port = new SerialPort(process.env.SERIAL_PORT);
+
+const { Measures } = require('../controllers/GeneralController');
 
 const parser = port.pipe(new Readline({ delimiter: '\r\n' }));
 
 let varData;
+let pot;
+let price;
 
 parser.on('data', (data) =>
 {
     varData = data;
-    exportData();
+    pot = varData * 127;
+    price = (pot/1000) * 0.2465;
 });
 
-const exportData = () =>
+const setPotPrice = async (req, res, next) =>
 {
-    console.log(varData);
+    req.pot = pot;
+    req.price = price;
+    next();
 }
+
+setInterval(() =>
+{
+    Measures.store();
+}, 3600000);
+
+
+module.exports = setPotPrice;
