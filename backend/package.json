@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "dev": "env-cmd -f ./config/dev.env node src/index.js"
+  },
   "dependencies": {
+    "env-cmd": "^10.0.1",
+    "mongoose": "^5.7.4",
     "serialport": "^7.1.5"
   }
 }
