@@ -1,36 +1,23 @@
-const User = require('../models/user');
 const Measures = require('../models/measures');
 
 module.exports = 
 {
-    async findUser(req, res)
+    async saveMeasure(data)
     {
-        const { email } = req.body;
-        let user = await User.findOne({ where:{ email } });
-        if(!user)
+        const measure = await Measures.findOne({ where: { id: 1 } });
+        if(!measure)
         {
-            user = await User.create(req.body);
-            await Measures.create({ pot: req.pot, price: req.price, actualPot: req.actualPot, owner: user.id });
+            return await Measures.create({ current: data })
         }
-        return res.send(user);
+        await measure.update({ current: data });
     },
-    async saveMeasure(req, res)
+    async loadMeasures()
     {
-        const { id } = req.headers;
-        await User.findOne({ where: { id } })
-            .then(() =>
-            {
-                Measures.update({
-                    pot: req.pot,
-                    price: req.price,
-                    actualPot: req.actualPot
-                }, {where: { owner: id }});
-                return res.send({
-                    pot: req.pot,
-                    price: req.price,
-                    actualPot: req.actualPot
-                });
-            })
-            .catch((e) => res.status(400).send({ error: e}));
+        const measure = await Measures.findOne({ where: { id: 1 } });
+        if(!measure)
+        {
+            return 0;
+        }
+        return parseFloat(measure.current);
     }
 }
