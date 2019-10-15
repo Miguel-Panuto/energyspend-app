@@ -10,8 +10,27 @@ module.exports =
         if(!user)
         {
             user = await User.create(req.body);
-            await Measures.create({ pot: req.pot, price: req.price, actualPot: req.pot, owner: user.id });
+            await Measures.create({ pot: req.pot, price: req.price, actualPot: req.actualPot, owner: user.id });
         }
         return res.send(user);
+    },
+    async saveMeasure(req, res)
+    {
+        const { id } = req.headers;
+        await User.findOne({ where: { id } })
+            .then(() =>
+            {
+                Measures.update({
+                    pot: req.pot,
+                    price: req.price,
+                    actualPot: req.actualPot
+                }, {where: { owner: id }});
+                return res.send({
+                    pot: req.pot,
+                    price: req.price,
+                    actualPot: req.actualPot
+                });
+            })
+            .catch((e) => res.status(400).send({ error: e}));
     }
 }

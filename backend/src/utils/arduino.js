@@ -7,13 +7,15 @@ const port = new SerialPort('COM5');
 const parser = port.pipe(new Readline({ delimiter: '\r\n' }));
 
 let varData;
-let pot;
+let actualPot;
+let pot = 0;
 let price;
 
 parser.on('data', (data) =>
 {
     varData = data;
-    pot = varData * 127;
+    actualPot = varData * 127;
+    pot += actualPot;
     price = (pot/1000) * 0.2465;
 });
 
