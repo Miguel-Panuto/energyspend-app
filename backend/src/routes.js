@@ -1,6 +1,8 @@
 const express = require('express');
 
-const { User, Measures } = require('./controllers/GeneralController');
+const { findUser } = require('./controllers/MeasureController');
+
+const User = require('./models/user');
 
 const arduino = require('./utils/arduino');
 
@@ -9,18 +11,14 @@ const routes = express.Router();
 // Create user -> create first time on arduino
 // Update arduino values
 
-routes.post('/user', arduino, (req, res) =>
-{
-    User.store();
-    Measures.store();
+routes.post('/user/create', arduino, findUser);
 
-    res.status(202);
-});
+// routes.get('/arduino', arduino, (req, res) =>
+// { 
+//     if (User.findUser())
+//         res.send({ pot: req.pot, price: req.price })
+//     else
+//         res.status(404).send({ error: 'User not founded' }); 
+// });
 
-routes.get('/arduino', arduino, (req, res) =>
-{ 
-    if (User.findUser())
-        res.send({ pot: req.pot, price: req.price })
-    else
-        res.status(404).send({ error: 'User not founded' }); 
-});
+module.exports = routes;

@@ -4,14 +4,19 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "env-cmd -f ./config/dev.env node src/index.js"
+    "dev": "env-cmd -f ./config/dev.env nodemon src/index.js"
   },
   "dependencies": {
     "env-cmd": "^10.0.1",
     "express": "^4.17.1",
     "mongoose": "^5.7.4",
     "multer": "^1.4.2",
+    "mysql2": "^1.7.0",
+    "sequelize": "^5.19.6",
     "serialport": "^7.1.5",
     "validator": "^11.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.3"
   }
 }

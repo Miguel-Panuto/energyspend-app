@@ -1,18 +1,23 @@
-const mongoose = require('mongoose');
+const Sequelize = require('sequelize');
+const sequelize = require('../db/mysql');
 
-const measureSchema = mongoose.Schema({
+const Measures = sequelize.define('measures', 
+{
     pot:{
-        type: Double
+        type: Sequelize.DOUBLE
     },
     price:{
-        type: Double
+        type: Sequelize.DOUBLE
+    },
+    actualPot:{
+        type: Sequelize.DOUBLE
     },
     owner:{
-        type: mongoose.Schema.Types.ObjectId,
-        require: true
+        type: Sequelize.INTEGER,
+        allowNull: false
     }
 });
 
-const Measures = mongoose.model('Measures', measureSchema);
+//pot price owner
 
 module.exports = Measures;

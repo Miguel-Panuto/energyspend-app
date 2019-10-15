@@ -1,25 +1,26 @@
-const mongoose = require('mongoose');
+const Sequelize = require('sequelize');
+const sequelize = require('../db/mysql');
 
-const userSchema = mongoose.Schema({
+const User = sequelize.define('users', 
+{
     name:{
-        type: String,
-        require: true,
-        trim: true
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate:{
+            notEmpty: true
+        }
     },
     email:{
-        type: String,
-        unique: true, //Just one email per user
-        require: true,
-        validate(value) //That is a function, that will validade something
-        {
-            if (!validator.isEmail(value))
-            {
-                throw new Error('Email is invalid');
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+        validate:{
+            notEmpty: true,
+            isEmail:{
+                msg: "Email apenas"
             }
         }
     }
 });
-
-const User = mongoose.model('User', userSchema);
 
 module.exports = User;

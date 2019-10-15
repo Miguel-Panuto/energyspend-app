@@ -1,8 +1,8 @@
 const SerialPort = require('serialport');
 const Readline = require('@serialport/parser-readline');
-const port = new SerialPort(process.env.SERIAL_PORT);
+const port = new SerialPort('COM5');
 
-const { Measures } = require('../controllers/GeneralController');
+// const { Measures } = require('../controllers/GeneralController');
 
 const parser = port.pipe(new Readline({ delimiter: '\r\n' }));
 
@@ -24,10 +24,10 @@ const setPotPrice = async (req, res, next) =>
     next();
 }
 
-setInterval(() =>
-{
-    Measures.store();
-}, 3600000);
+// setInterval(() =>
+// {
+//     Measures.store();
+// }, 3600000);
 
 
 module.exports = setPotPrice;
