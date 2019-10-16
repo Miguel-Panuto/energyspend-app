@@ -1,5 +1,7 @@
 package javacore.controller;
 
+import javacore.view.MainScreen;
+
 import java.io.*;
 
 public class ReadData
@@ -10,10 +12,16 @@ public class ReadData
     private double kwhPot;
     private double actualPot = 0;
 
-    public ReadData(double voltage)
+    private static final double priceWS = 0.0000001464;
+
+    private MainScreen ms;
+
+    public ReadData(double voltage, MainScreen ms)
     {
+        this.ms = ms;
         this.voltage = voltage;
     }
+
 
     private double readFile(String whatFile)
     {
@@ -30,7 +38,7 @@ public class ReadData
         }
     }
 
-    public void initiate()
+    private void initiate()
     {
         Thread thread = new Thread(()  ->
         {
@@ -40,9 +48,9 @@ public class ReadData
                     break;
                 try
                 {
-                    actualPot = readFile("data.txt");
+                    actualPot = readFile("data.txt") * 2.7777777777777776 * Math.pow(10, -7);
                     pot += actualPot;
-                    kwhPot = pot * 2.7777777777777776 * Math.pow(10, -7);
+                    ms.setTxtFields(actualPot, pot, pot * priceWS);
                     Thread.sleep(1000);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -52,9 +60,11 @@ public class ReadData
         thread.start();
     }
 
-    public void turnOnOff()
+    public void turnOnOff(boolean isRuning)
     {
-        isRuning = !isRuning;
+        this.isRuning = isRuning;
+        if (isRuning)
+            initiate();
     }
 
     public void setVoltage(double voltage)
