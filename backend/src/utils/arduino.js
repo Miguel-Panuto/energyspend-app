@@ -1,6 +1,6 @@
 const SerialPort = require('serialport');
 const Readline = require('@serialport/parser-readline');
-const port = new SerialPort('COM3');
+const port = new SerialPort(process.argv[2]);
 const fs = require('fs');
 
 const { saveMeasure, loadMeasures } = require('../controllers/MeasureController');
