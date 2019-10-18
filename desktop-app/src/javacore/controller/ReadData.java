@@ -6,12 +6,14 @@ import java.io.*;
 
 public class ReadData
 {
+    // Atributos
     private double voltage;
     private boolean isRuning = true;
-    private double pot = readFile("pot.txt");
+    private double pot = readFile("pot.txt"); // Abrir o arquivo da potencia atual, medida do banco de dados e voltada a cada 10s
     private double kwhPot;
     private double actualPot = 0;
 
+    // Constante do preço de WS
     private static final double priceWS = 0.0000001464;
 
     private MainScreen ms;
@@ -23,7 +25,7 @@ public class ReadData
     }
 
 
-    private double readFile(String whatFile)
+    private double readFile(String whatFile) // Isso irá abrir o arquivo, no caso, o arquivo escolhido
     {
         try
         {
@@ -34,7 +36,7 @@ public class ReadData
         }
         catch (IOException e)
         {
-            return 0;
+            return 0; // Caso não seja encontrado o arquivo, é retornado o valor 0
         }
     }
 

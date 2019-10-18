@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Inicializador",
+            "request": "launch",
+            "mainClass": "javacore.Inicializador",
+            "projectName": "desktop-app_cb403aa7"
+        }
+    ]
+}
